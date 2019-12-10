@@ -46,11 +46,6 @@ $GLOBALS['TL_DCA']['tl_regions'] = array
         ),
 		'global_operations' => array
 		(
-            'importRegions' => array
-            (
-                'href'                => 'key=importRegions',
-                'class'               => 'header_theme_import'
-            ),
 			'all' => array
 			(
 				'href'                => 'act=select',
