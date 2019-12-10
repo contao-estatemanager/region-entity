@@ -1,0 +1,29 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/tl_regions.php" source-language="en">
+    <body>
+      <trans-unit id="tl_regions.pageManager">
+        <source>Regions</source>
+      </trans-unit>
+
+      <trans-unit id="tl_regions.root.0">
+        <source>Language</source>
+      </trans-unit>
+      <trans-unit id="tl_regions.regular.0">
+        <source>Region</source>
+      </trans-unit>
+
+      <trans-unit id="tl_regions.title.0">
+        <source>Title</source>
+      </trans-unit>
+      <trans-unit id="tl_regions.title.1">
+        <source>Please choose the title.</source>
+      </trans-unit>
+      <trans-unit id="tl_regions.type.0">
+        <source>Type</source>
+      </trans-unit>
+      <trans-unit id="tl_regions.type.1">
+        <source>Please choose the type.</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
