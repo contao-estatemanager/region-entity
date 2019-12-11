@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of Oveleon Region Entity.
  *
  * (c) https://www.oveleon.de/
  */
+
+declare(strict_types=1);
 
 namespace ContaoEstateManager\RegionEntity\ContaoManager;
 
@@ -16,7 +16,7 @@ use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use ContaoEstateManager\RegionEntity\RegionEntity;
 
-class Plugin
+class Plugin implements BundlePluginInterface
 {
     /**
      * {@inheritdoc}

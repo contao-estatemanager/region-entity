@@ -133,15 +133,6 @@ $GLOBALS['TL_DCA']['tl_regions'] = array
 		(
 			'sql'                     => "int(10) unsigned NOT NULL default 0"
 		),
-		'oid' => array
-		(
-			'exclude'                 => true,
-			'search'                  => true,
-			'sorting'                 => true,
-			'inputType'               => 'text',
-			'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
-			'sql'                     => "varchar(255) NOT NULL default ''"
-		),
 		'title' => array
 		(
 			'exclude'                 => true,

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/modules.php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="MOD.regions.0">
+        <source>Regions</source>
+        <target>Regionen</target>
+      </trans-unit>
+      <trans-unit id="MOD.regions.1">
+        <source>Manage regions</source>
+        <target>Regionen verwalten</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
