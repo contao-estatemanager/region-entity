@@ -23,7 +23,8 @@ $GLOBALS['TL_DCA']['tl_regions'] = array
 			'keys' => array
 			(
 				'id' => 'primary',
-				'published,oid' => 'index'
+				'pid' => 'index',
+				'published' => 'index'
 			)
 		)
 	),
