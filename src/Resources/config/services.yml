@@ -1,0 +1,10 @@
+services:
+    contao.picker.region_provider:
+        class: ContaoEstateManager\RegionEntity\Picker\RegionPickerProvider
+        arguments:
+            - '@knp_menu.factory'
+            - '@router'
+            - '@?translator'
+            - '@security.helper'
+        tags:
+            - { name: contao.picker_provider, priority: 192 }

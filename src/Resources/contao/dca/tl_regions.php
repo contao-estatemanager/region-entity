@@ -240,10 +240,6 @@ class tl_regions extends \Backend
         {
             $label .= ' <span style="color:#999;padding-left:3px">[' . $row['language'] . ']</span>';
         }
-        else
-        {
-            $label .= ' <span style="color:#999;padding-left:3px">[' . $row['oid'] . ']</span>';
-        }
 
         $image = 'root';
 
