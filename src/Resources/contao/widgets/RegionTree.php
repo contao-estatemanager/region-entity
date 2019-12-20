@@ -152,7 +152,7 @@ class RegionTree extends \Widget
 			$arrIds = array_map('\intval', array_filter(explode(',', $varInput)));
 		}
 
-		if (\count(array_diff($arrIds, array_merge($this->rootNodes, $this->Database->getChildRecords($this->rootNodes, 'tl_regions')))) > 0)
+		if (\count(array_diff($arrIds, array_merge($this->rootNodes, $this->Database->getChildRecords($this->rootNodes, 'tl_region')))) > 0)
 		{
 			$this->addError($GLOBALS['TL_LANG']['ERR']['invalidRegions']);
 		}
@@ -172,7 +172,7 @@ class RegionTree extends \Widget
 		// $this->varValue can be an array, so use empty() here
 		if (!empty($this->varValue))
 		{
-			$objRegions = RegionsModel::findMultipleByIds((array) $this->varValue);
+			$objRegions = RegionModel::findMultipleByIds((array) $this->varValue);
 
 			if ($objRegions !== null)
 			{

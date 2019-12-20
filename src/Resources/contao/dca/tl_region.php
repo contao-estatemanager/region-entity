@@ -5,7 +5,7 @@
  * (c) https://www.oveleon.de/
  */
 
-$GLOBALS['TL_DCA']['tl_regions'] = array
+$GLOBALS['TL_DCA']['tl_region'] = array
 (
 	// Config
 	'config' => array
@@ -15,8 +15,8 @@ $GLOBALS['TL_DCA']['tl_regions'] = array
 		'markAsCopy'                  => 'title',
         'onload_callback' => array
         (
-            array('tl_regions', 'setRootType'),
-            array('tl_regions', 'translateRootTitle')
+            array('tl_region', 'setRootType'),
+            array('tl_region', 'translateRootTitle')
         ),
 		'sql' => array
 		(
@@ -36,14 +36,14 @@ $GLOBALS['TL_DCA']['tl_regions'] = array
 		(
             'mode'                    => 5,
             'icon'                    => 'pagemounts.svg',
-            'paste_button_callback'   => array('tl_regions', 'pasteRegion'),
+            'paste_button_callback'   => array('tl_region', 'pasteRegion'),
             'panelLayout'             => 'filter;search'
 		),
         'label' => array
         (
             'fields'                  => array('title'),
             'format'                  => '%s',
-            'label_callback'          => array('tl_regions', 'addLanguage')
+            'label_callback'          => array('tl_region', 'addLanguage')
         ),
 		'global_operations' => array
 		(
@@ -60,41 +60,41 @@ $GLOBALS['TL_DCA']['tl_regions'] = array
             (
                 'href'                => 'act=edit',
                 'icon'                => 'edit.svg',
-                'button_callback'     => array('tl_regions', 'editRegion')
+                'button_callback'     => array('tl_region', 'editRegion')
             ),
             'copy' => array
             (
                 'href'                => 'act=paste&amp;mode=copy',
                 'icon'                => 'copy.svg',
                 'attributes'          => 'onclick="Backend.getScrollOffset()"',
-                'button_callback'     => array('tl_regions', 'copyRegion')
+                'button_callback'     => array('tl_region', 'copyRegion')
             ),
             'copyChilds' => array
             (
                 'href'                => 'act=paste&amp;mode=copy&amp;childs=1',
                 'icon'                => 'copychilds.svg',
                 'attributes'          => 'onclick="Backend.getScrollOffset()"',
-                'button_callback'     => array('tl_regions', 'copyRegionWithSubregions')
+                'button_callback'     => array('tl_region', 'copyRegionWithSubregions')
             ),
             'cut' => array
             (
                 'href'                => 'act=paste&amp;mode=cut',
                 'icon'                => 'cut.svg',
                 'attributes'          => 'onclick="Backend.getScrollOffset()"',
-                'button_callback'     => array('tl_regions', 'cutRegion')
+                'button_callback'     => array('tl_region', 'cutRegion')
             ),
             'delete' => array
             (
                 'href'                => 'act=delete',
                 'icon'                => 'delete.svg',
                 'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"',
-                'button_callback'     => array('tl_regions', 'deleteRegion')
+                'button_callback'     => array('tl_region', 'deleteRegion')
             ),
             'toggle' => array
             (
                 'icon'                => 'visible.svg',
                 'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback'     => array('tl_regions', 'toggleIcon')
+                'button_callback'     => array('tl_region', 'toggleIcon')
             ),
             'show' => array
             (
@@ -151,10 +151,10 @@ $GLOBALS['TL_DCA']['tl_regions'] = array
             'inputType'               => 'select',
             'options'                 => array('root', 'regular'),
             'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'w50'),
-            'reference'               => &$GLOBALS['TL_LANG']['tl_regions'],
+            'reference'               => &$GLOBALS['TL_LANG']['tl_region'],
             'save_callback' => array
             (
-                array('tl_regions', 'checkRootType')
+                array('tl_region', 'checkRootType')
             ),
             'sql'                     => "varchar(64) NOT NULL default 'regular'"
         ),
@@ -209,9 +209,9 @@ $GLOBALS['TL_DCA']['tl_regions'] = array
  * @author Daniele Sciannimanica <https://github.com/doishub>
  */
 
-use ContaoEstateManager\RegionEntity\RegionsModel;
+use ContaoEstateManager\RegionEntity\RegionModel;
 
-class tl_regions extends \Backend
+class tl_region extends \Backend
 {
 	/**
 	 * Import the back end user object
@@ -253,7 +253,7 @@ class tl_regions extends \Backend
      */
     public function translateRootTitle(DataContainer $dc)
     {
-        $GLOBALS['TL_LANG']['MSC']['pageManager'] = &$GLOBALS['TL_LANG']['tl_regions']['pageManager'];
+        $GLOBALS['TL_LANG']['MSC']['pageManager'] = &$GLOBALS['TL_LANG']['tl_region']['pageManager'];
     }
 
     /**
@@ -271,7 +271,7 @@ class tl_regions extends \Backend
         // Insert into
         if (\Input::get('pid') == 0)
         {
-            $GLOBALS['TL_DCA']['tl_regions']['fields']['type']['default'] = 'root';
+            $GLOBALS['TL_DCA']['tl_region']['fields']['type']['default'] = 'root';
         }
         elseif (\Input::get('mode') == 1)
         {
@@ -281,7 +281,7 @@ class tl_regions extends \Backend
 
             if ($objPage->pid == 0)
             {
-                $GLOBALS['TL_DCA']['tl_regions']['fields']['type']['default'] = 'root';
+                $GLOBALS['TL_DCA']['tl_region']['fields']['type']['default'] = 'root';
             }
         }
     }
@@ -403,7 +403,7 @@ class tl_regions extends \Backend
             return '';
         }
 
-        $objSubregions = RegionsModel::findByPid($row['id']);
+        $objSubregions = RegionModel::findByPid($row['id']);
 
         return ($objSubregions !== null && $objSubregions->count() > 0 && $this->User->hasAccess('regions', 'alpty')) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . \StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ' : \Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
     }
@@ -465,7 +465,7 @@ class tl_regions extends \Backend
         }
 
         // Check permissions AFTER checking the tid, so hacking attempts are logged
-        if (!$this->User->hasAccess('tl_regions::published', 'alexf'))
+        if (!$this->User->hasAccess('tl_region::published', 'alexf'))
         {
             return '';
         }
@@ -477,7 +477,7 @@ class tl_regions extends \Backend
             $icon = 'invisible.svg';
         }
 
-        if (!$this->User->hasAccess('regions', 'alpty') || ($objRegion = RegionsModel::findById($row['id'])) === null)
+        if (!$this->User->hasAccess('regions', 'alpty') || ($objRegion = RegionModel::findById($row['id'])) === null)
         {
             return \Image::getHtml($icon) . ' ';
         }
@@ -506,9 +506,9 @@ class tl_regions extends \Backend
         }
 
         // Trigger the onload_callback
-        if (is_array($GLOBALS['TL_DCA']['tl_regions']['config']['onload_callback']))
+        if (is_array($GLOBALS['TL_DCA']['tl_region']['config']['onload_callback']))
         {
-            foreach ($GLOBALS['TL_DCA']['tl_regions']['config']['onload_callback'] as $callback)
+            foreach ($GLOBALS['TL_DCA']['tl_region']['config']['onload_callback'] as $callback)
             {
                 if (is_array($callback))
                 {
@@ -523,7 +523,7 @@ class tl_regions extends \Backend
         }
 
         // Check the field access
-        if (!$this->User->hasAccess('tl_regions::published', 'alexf'))
+        if (!$this->User->hasAccess('tl_region::published', 'alexf'))
         {
             throw new \CoreBundle\Exception\AccessDeniedException('Not enough permissions to publish/unpublish region ID ' . $intId . '.');
         }
@@ -531,7 +531,7 @@ class tl_regions extends \Backend
         // Set the current record
         if ($dc)
         {
-            $objRow = $this->Database->prepare("SELECT * FROM tl_regions WHERE id=?")
+            $objRow = $this->Database->prepare("SELECT * FROM tl_region WHERE id=?")
                 ->limit(1)
                 ->execute($intId);
 
@@ -541,13 +541,13 @@ class tl_regions extends \Backend
             }
         }
 
-        $objVersions = new \Versions('tl_regions', $intId);
+        $objVersions = new \Versions('tl_region', $intId);
         $objVersions->initialize();
 
         // Trigger the save_callback
-        if (is_array($GLOBALS['TL_DCA']['tl_regions']['fields']['published']['save_callback']))
+        if (is_array($GLOBALS['TL_DCA']['tl_region']['fields']['published']['save_callback']))
         {
-            foreach ($GLOBALS['TL_DCA']['tl_regions']['fields']['published']['save_callback'] as $callback)
+            foreach ($GLOBALS['TL_DCA']['tl_region']['fields']['published']['save_callback'] as $callback)
             {
                 if (is_array($callback))
                 {
@@ -564,7 +564,7 @@ class tl_regions extends \Backend
         $time = time();
 
         // Update the database
-        $this->Database->prepare("UPDATE tl_regions SET tstamp=$time, published='" . ($blnVisible ? '1' : '') . "' WHERE id=?")
+        $this->Database->prepare("UPDATE tl_region SET tstamp=$time, published='" . ($blnVisible ? '1' : '') . "' WHERE id=?")
             ->execute($intId);
 
         if ($dc)

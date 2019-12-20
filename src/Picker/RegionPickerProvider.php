@@ -69,7 +69,7 @@ class RegionPickerProvider extends AbstractInsertTagPickerProvider implements Dc
      */
     public function getDcaTable(): string
     {
-        return 'tl_regions';
+        return 'tl_region';
     }
 
     /**

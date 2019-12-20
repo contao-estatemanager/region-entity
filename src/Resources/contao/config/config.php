@@ -9,26 +9,11 @@
  */
 
 // Back end modules
-if(isset($GLOBALS['BE_MOD']['real_estate']))
-{
-    $GLOBALS['BE_MOD']['real_estate']['regions'] = array('tables' => array('tl_regions'));
-}
-else
-{
-    array_insert($GLOBALS['BE_MOD'], 1, array
-    (
-        'real_estate' => array
-        (
-            'regions' => array
-            (
-                'tables' => array('tl_regions')
-            )
-        )
-    ));
-}
+$GLOBALS['BE_MOD']['system']['regions'] = array('tables' => array('tl_region', 'tl_region_connection'));
 
 // Models
-$GLOBALS['TL_MODELS']['tl_regions'] = '\\ContaoEstateManager\\RegionEntity\\RegionsModel';
+$GLOBALS['TL_MODELS']['tl_region'] = '\\ContaoEstateManager\\RegionEntity\\RegionModel';
+$GLOBALS['TL_MODELS']['tl_region_connection'] = '\\ContaoEstateManager\\RegionEntity\\RegionConnectionModel';
 
 // Add permissions
 $GLOBALS['TL_PERMISSIONS'][] = 'regions';
