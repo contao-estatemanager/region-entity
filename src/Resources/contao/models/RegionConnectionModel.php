@@ -31,4 +31,18 @@ class RegionConnectionModel extends \Model
      * @var string
      */
     protected static $strTable = 'tl_region_connection';
+
+    /**
+     * Delete connections by pid and ptable
+     *
+     * @param $pid
+     * @param $ptable
+     */
+    public static function deleteByPidAndPtable($pid, $ptable)
+    {
+        $strTable = static::$strTable;
+
+        $objDatabase = \Database::getInstance();
+        $objDatabase->prepare('DELETE FROM ' . $strTable . ' WHERE pid=' . $pid . ' AND ptable="' . $ptable . '"')->execute();
+    }
 }

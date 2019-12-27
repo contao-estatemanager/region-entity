@@ -29,6 +29,9 @@ class Region extends \Backend
         {
             $arrRegions = \StringUtil::deserialize($varValue);
 
+            // delete previous connections
+            RegionConnectionModel::deleteByPidAndPtable($dc->activeRecord->id, $strTable);
+
             if($arrRegions !== null)
             {
                 foreach ($arrRegions as $regionId)
