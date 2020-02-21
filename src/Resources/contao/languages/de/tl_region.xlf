@@ -18,6 +18,14 @@
         <source>Language</source>
         <target>Sprache</target>
       </trans-unit>
+      <trans-unit id="tl_region.language.0">
+        <source>Language</source>
+        <target>Sprache</target>
+      </trans-unit>
+      <trans-unit id="tl_region.language.1">
+        <source>Please enter the language of the page according to the ISO-639-1 standard (e.g. "de" for German or "de-CH" for Swiss German).</source>
+        <target>Bitte geben Sie die Sprache der Seite gemäß des ISO-639-1 Standards ein (z.B. "de" für Deutsch oder "de-CH" für Schweizerdeutsch).</target>
+      </trans-unit>
       <trans-unit id="tl_region.regular.0">
         <source>Region</source>
         <target>Region</target>
@@ -42,6 +50,30 @@
       <trans-unit id="tl_region.published.0">
         <source>publish</source>
         <target>veröffentlichen</target>
+      </trans-unit>
+      <trans-unit id="tl_region.description.0">
+        <source>Description</source>
+        <target>Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="tl_region.country.0">
+        <source>Country</source>
+        <target>Land</target>
+      </trans-unit>
+      <trans-unit id="tl_region.state.0">
+        <source>State</source>
+        <target>Bundesland</target>
+      </trans-unit>
+      <trans-unit id="tl_region.postalcodes.0">
+        <source>Postalcodes</source>
+        <target>Postleitzahlen</target>
+      </trans-unit>
+      <trans-unit id="tl_region.lat.0">
+        <source>Latitude</source>
+        <target>Breitengrad</target>
+      </trans-unit>
+      <trans-unit id="tl_region.lng.0">
+        <source>Longitude</source>
+        <target>Längengrad</target>
       </trans-unit>
     </body>
   </file>

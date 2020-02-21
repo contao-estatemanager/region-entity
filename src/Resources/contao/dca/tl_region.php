@@ -110,7 +110,7 @@ $GLOBALS['TL_DCA']['tl_region'] = array
         '__selector__'                => array('type'),
         'default'                     => '{title_legend},title,type',
         'root'                        => '{title_legend},title,type;{config_legend},language;{publish_legend},published',
-        'regular'                     => '{title_legend},title,type;{publish_legend},published'
+        'regular'                     => '{title_legend},title,type;{region_legend},description,country,state,postalcodes,lat,lng;{publish_legend},published'
 	),
 
     // Fields
@@ -181,6 +181,18 @@ $GLOBALS['TL_DCA']['tl_region'] = array
             'sql'                     => "text NULL"
         ),
         'state' => array
+        (
+            'inputType'               => 'text',
+            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'lat' => array
+        (
+            'inputType'               => 'text',
+            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50 clr'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'lng' => array
         (
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
