@@ -18,6 +18,16 @@ class RegionRead extends \Frontend
     const METHOD_POST = 'POST';
 
     /**
+     * Current search string
+     */
+    protected $strSearchValue = '';
+
+    /**
+     * Current search fields
+     */
+    protected $arrSearchFields = ['title'];
+
+    /**
      * Run the controller
      *
      * @param String $module  Module-Name
@@ -48,9 +58,9 @@ class RegionRead extends \Frontend
                     break;
                 }
 
-                if(!$currParam['fields'])
+                if($currParam['fields'])
                 {
-                    $fields = array('title');
+                    $this->arrSearchFields = $currParam['fields'];
                 }
 
                 $root = RegionModel::findOneByLanguage($currParam['language']);
@@ -65,38 +75,20 @@ class RegionRead extends \Frontend
                     break;
                 }
 
-                $arrQuery    = [];
                 $arrResults  = [];
-                $arrCollumns = ['published=1', 'pid=?'];
-                $arrValues   = [$root->id];
 
-                // prepare field
-                foreach ($fields as $field)
-                {
-                    switch ($field)
-                    {
-                        case 'title':
-                            $arrQuery[] = $field . ' LIKE ?';
-                            $arrValues[] = $currParam['search'] . '%';
-                            break;
-                    }
-                }
+                // Set current search value
+                $this->strSearchValue = $currParam['search'];
 
-                $arrCollumns[] = implode(' || ', $arrQuery);
+                $arrColumns = ['published=1', 'pid=?'];
+                $arrValues  = [$root->id];
+
+                $this->appendFieldSearchQuery( $arrColumns, $arrValues);
 
                 // prepare results
-                if($objRegions = RegionModel::findBy($arrCollumns, $arrValues))
+                if($objRegions = RegionModel::findBy($arrColumns, $arrValues))
                 {
-                    while($objRegions->next())
-                    {
-                        $arrResults[ $objRegions->id ] = $objRegions->row();
-
-                        if($arrResults[ $objRegions->id ]['postalcodes'])
-                        {
-                            $arrResults[ $objRegions->id ]['postalcodes'] = \StringUtil::deserialize($arrResults[ $objRegions->id ]['postalcodes']);
-                        }
-                    }
-
+                    $this->subRegionsSearch($objRegions, $arrResults, true);
                     $result = $arrResults;
                 }
 
@@ -115,6 +107,69 @@ class RegionRead extends \Frontend
         );
 
         return new JsonResponse($data);
+    }
+
+    /**
+     * Adds search parameters with specific fields to the column and value array
+     *
+     * @param $arrColumns
+     * @param $arrValues
+     */
+    protected function appendFieldSearchQuery(&$arrColumns, &$arrValues)
+    {
+        $arrQuery = [];
+
+        foreach ($this->arrSearchFields as $field)
+        {
+            switch ($field)
+            {
+                case 'title':
+                    $arrQuery[] = $field . ' LIKE ?';
+                    $arrValues[] = $this->strSearchValue . '%';
+                    break;
+            }
+        }
+
+        $arrColumns[] = implode(' || ', $arrQuery);
+    }
+
+    /**
+     * Returns all regions and their sub regions by current search parameter
+     *
+     * @param \Model\Collection|RegionModel[]|RegionModel|null $objRegion   Region object to start from
+     * @param array  $arrRegions  Array in which the values are stored
+     * @param bool   $asArray     Return results as array
+     */
+    public function subRegionsSearch($objRegion, &$arrRegions, $asArray=false)
+    {
+        while($objRegion->next())
+        {
+            if(!$asArray)
+            {
+                $arrRegions[ $objRegion->id ] = $objRegion->current();
+            }
+            else
+            {
+                $arrRegions[ $objRegion->id ] = $objRegion->row();
+
+                if($arrRegions[ $objRegion->id ]['postalcodes'])
+                {
+                    $arrRegions[ $objRegion->id ]['postalcodes'] = \StringUtil::deserialize($arrRegions[ $objRegion->id ]['postalcodes']);
+                }
+            }
+
+            $arrColumns = ['published=1', 'pid=?'];
+            $arrValues   = [$objRegion->id];
+
+            $this->appendFieldSearchQuery( $arrColumns, $arrValues);
+
+            $objSubRegions = RegionModel::findBy($arrColumns, $arrValues);
+
+            if($objSubRegions !== null)
+            {
+                $this->subRegionsSearch($objSubRegions, $arrRegions, $asArray);
+            }
+        }
     }
 
     /**

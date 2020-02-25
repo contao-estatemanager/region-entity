@@ -75,4 +75,24 @@ class RegionModel extends \Model
      * @var string
      */
     protected static $strTable = 'tl_region';
+
+    /**
+     * Find published regions by its parent ID's
+     *
+     * @param integer $intId      The region PID
+     * @param array   $arrOptions An optional options array
+     *
+     * @return \Model\Collection|RegionModel[]|RegionModel|null The model collection or null if there is no published region
+     */
+    public static function findPublishedByPid($intId, array $arrOptions=array())
+    {
+        $t = static::$strTable;
+
+        $arrColumns = array(
+            "$t.pid=?",
+            "$t.published=1"
+        );
+
+        return static::findBy($arrColumns, $intId, $arrOptions);
+    }
 }
