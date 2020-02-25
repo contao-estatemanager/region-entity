@@ -25,7 +25,12 @@ class RegionRead extends \Frontend
     /**
      * Current search fields
      */
-    protected $arrSearchFields = ['title'];
+    protected $arrSearchFields = ['title', 'postalcodes'];
+
+    /**
+     * Already searched parent ID's
+     */
+    protected $arrParentIds = [];
 
     /**
      * Run the controller
@@ -88,6 +93,8 @@ class RegionRead extends \Frontend
                 // prepare results
                 if($objRegions = RegionModel::findBy($arrColumns, $arrValues))
                 {
+                    $this->arrParentIds = [];
+
                     $this->subRegionsSearch($objRegions, $arrResults, true);
                     $result = $arrResults;
                 }
@@ -127,6 +134,10 @@ class RegionRead extends \Frontend
                     $arrQuery[] = $field . ' LIKE ?';
                     $arrValues[] = $this->strSearchValue . '%';
                     break;
+                case 'postalcodes':
+                    $arrQuery[] = $field . ' LIKE ?';
+                    $arrValues[] = '%"'.$this->strSearchValue . '%"%';
+                    break;
             }
         }
 
@@ -157,6 +168,12 @@ class RegionRead extends \Frontend
                     $arrRegions[ $objRegion->id ]['postalcodes'] = \StringUtil::deserialize($arrRegions[ $objRegion->id ]['postalcodes']);
                 }
             }
+
+            if(in_array($objRegion->id, $this->arrParentIds)){
+                continue;
+            }
+
+            $this->arrParentIds[] = $objRegion->id;
 
             $arrColumns = ['published=1', 'pid=?'];
             $arrValues   = [$objRegion->id];
