@@ -36,7 +36,7 @@ class Region extends \Backend
             {
                 foreach ($arrRegions as $regionId)
                 {
-                    $this->saveConnectionRecord($regionId, $dc->activeRecord->id, $strTable);
+                    static::saveConnectionRecord($regionId, $dc->activeRecord->id, $strTable);
                 }
             }
         }
@@ -51,7 +51,7 @@ class Region extends \Backend
      * @param $pid
      * @param $ptable
      */
-    public function saveConnectionRecord($rid, $pid, $ptable)
+    public static function saveConnectionRecord($rid, $pid, $ptable)
     {
         $objConnection = new RegionConnectionModel();
         $objConnection->rid = $rid;
