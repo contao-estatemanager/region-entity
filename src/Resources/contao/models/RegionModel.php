@@ -2,6 +2,8 @@
 
 namespace ContaoEstateManager\RegionEntity;
 
+use Contao\Model;
+
 /**
  * Reads and writes Regions
  *
@@ -67,7 +69,7 @@ namespace ContaoEstateManager\RegionEntity;
  *
  * @author Daniele Sciannimanica <https://github.com/doishub>
  */
-class RegionModel extends \Model
+class RegionModel extends Model
 {
 
     /**

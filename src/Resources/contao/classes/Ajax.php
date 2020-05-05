@@ -9,33 +9,39 @@
 
 namespace ContaoEstateManager\RegionEntity;
 
+use Contao\Backend;
+use Contao\Config;
+use Contao\Controller;
 use Contao\CoreBundle\Exception\NoContentResponseException;
 use Contao\CoreBundle\Exception\ResponseException;
+use Contao\DataContainer;
+use Contao\Input;
+use Contao\StringUtil;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class Ajax extends \Backend
+class Ajax extends Backend
 {
     /**
      * Ajax actions that do require a data container object
      *
      * @param $strAction
-     * @param \DataContainer $dc
+     * @param DataContainer $dc
      *
      * @throws \Exception
      */
-    public function executePostActions($strAction, \DataContainer $dc)
+    public function executePostActions($strAction, DataContainer $dc)
     {
         if($strAction !== 'reloadRegiontree')
         {
             throw new NoContentResponseException();
         }
 
-        $intId = \Input::get('id');
-        $strField = $dc->inputName = \Input::post('name');
+        $intId = Input::get('id');
+        $strField = $dc->inputName = Input::post('name');
 
         // Handle the keys in "edit multiple" mode
-        if (\Input::get('act') == 'editAll')
+        if (Input::get('act') == 'editAll')
         {
             $intId = preg_replace('/.*_([0-9a-zA-Z]+)$/', '$1', $strField);
             $strField = preg_replace('/(.*)_[0-9a-zA-Z]+$/', '$1', $strField);
@@ -54,11 +60,11 @@ class Ajax extends \Backend
         $varValue = null;
 
         // Load the value
-        if (\Input::get('act') != 'overrideAll')
+        if (Input::get('act') != 'overrideAll')
         {
             if ($GLOBALS['TL_DCA'][$dc->table]['config']['dataContainer'] == 'File')
             {
-                $varValue = \Config::get($strField);
+                $varValue = Config::get($strField);
             }
             elseif ($intId > 0 && $this->Database->tableExists($dc->table))
             {
@@ -95,13 +101,13 @@ class Ajax extends \Backend
         }
 
         // Set the new value
-        $varValue = \Input::post('value', true);
+        $varValue = Input::post('value', true);
         $strKey = 'regionTree';
 
         // Convert the selected values
         if ($varValue != '')
         {
-            $varValue = \StringUtil::trimsplit("\t", $varValue);
+            $varValue = StringUtil::trimsplit("\t", $varValue);
             $varValue = serialize($varValue);
         }
 
@@ -123,6 +129,6 @@ class Ajax extends \Backend
      */
     protected function convertToResponse($str)
     {
-        return new Response(\Controller::replaceOldBePaths($str));
+        return new Response(Controller::replaceOldBePaths($str));
     }
 }

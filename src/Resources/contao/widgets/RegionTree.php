@@ -8,6 +8,12 @@
 
 namespace ContaoEstateManager\RegionEntity;
 
+use Contao\Database;
+use Contao\Image;
+use Contao\Input;
+use Contao\System;
+use Contao\Widget;
+
 /**
  * Provide methods to handle input field "region tree".
  *
@@ -22,7 +28,7 @@ namespace ContaoEstateManager\RegionEntity;
  * RegionTree
  * @author Daniele Sciannimanica <https://github.com/doishub>
  */
-class RegionTree extends \Widget
+class RegionTree extends Widget
 {
 	/**
 	 * Submit user input
@@ -55,7 +61,7 @@ class RegionTree extends \Widget
 	 */
 	public function __construct($arrAttributes=null)
 	{
-		$this->import(\Database::class, 'Database');
+		$this->import(Database::class, 'Database');
 		parent::__construct($arrAttributes);
 
 		// Prepare the order field
@@ -65,7 +71,7 @@ class RegionTree extends \Widget
 			$this->strOrderName = $this->orderField . str_replace($this->strField, '', $this->strName);
 
 			// Retrieve the order value
-			$objRow = $this->Database->prepare("SELECT " . \Database::quoteIdentifier($this->orderField) . " FROM " . $this->strTable . " WHERE id=?")
+			$objRow = $this->Database->prepare("SELECT " . Database::quoteIdentifier($this->orderField) . " FROM " . $this->strTable . " WHERE id=?")
 						   ->limit(1)
 						   ->execute($this->activeRecord->id);
 
@@ -95,7 +101,7 @@ class RegionTree extends \Widget
 		{
 			$arrNew = array();
 
-			if ($order = \Input::post($this->strOrderName))
+			if ($order = Input::post($this->strOrderName))
 			{
 				$arrNew = explode(',', $order);
 			}
@@ -103,7 +109,7 @@ class RegionTree extends \Widget
 			// Only proceed if the value has changed
 			if ($arrNew !== $this->{$this->orderField})
 			{
-				$this->Database->prepare("UPDATE " . $this->strTable . " SET tstamp=?, " .  \Database::quoteIdentifier($this->orderField) . "=? WHERE id=?")
+				$this->Database->prepare("UPDATE " . $this->strTable . " SET tstamp=?, " .  Database::quoteIdentifier($this->orderField) . "=? WHERE id=?")
 							   ->execute(time(), serialize($arrNew), $this->activeRecord->id);
 
 				$this->objDca->createNewVersion = true; // see #6285
@@ -181,7 +187,7 @@ class RegionTree extends \Widget
                     $image = 'root';
 
                     $arrSet[] = $objRegions->id;
-                    $arrValues[$objRegions->id] = \Image::getHtml(($objRegions->published ? $image : $image . '_1') . '.svg', '', 'data-icon="' . $image . '.svg" data-icon-disabled="' . $image . '_1.svg"') . ' ' . $objRegions->title;
+                    $arrValues[$objRegions->id] = Image::getHtml(($objRegions->published ? $image : $image . '_1') . '.svg', '', 'data-icon="' . $image . '.svg" data-icon-disabled="' . $image . '_1.svg"') . ' ' . $objRegions->title;
 				}
 			}
 
@@ -225,7 +231,7 @@ class RegionTree extends \Widget
 
 		$return .= '</ul>';
 
-		if (!\System::getContainer()->get('contao.picker.builder')->supportsContext('region'))
+		if (!System::getContainer()->get('contao.picker.builder')->supportsContext('region'))
 		{
 			$return .= '
 	<p><button class="tl_submit" disabled>' . $GLOBALS['TL_LANG']['MSC']['changeSelection'] . '</button></p>';
@@ -244,7 +250,7 @@ class RegionTree extends \Widget
 			}
 
 			$return .= '
-    <p><a href="' . ampersand(\System::getContainer()->get('contao.picker.builder')->getUrl('region', $extras)) . '" class="tl_submit" id="pt_' . $this->strName . '">' . $GLOBALS['TL_LANG']['MSC']['changeSelection'] . '</a></p>
+    <p><a href="' . ampersand(System::getContainer()->get('contao.picker.builder')->getUrl('region', $extras)) . '" class="tl_submit" id="pt_' . $this->strName . '">' . $GLOBALS['TL_LANG']['MSC']['changeSelection'] . '</a></p>
     <script>
       $("pt_' . $this->strName . '").addEvent("click", function(e) {
         e.preventDefault();
