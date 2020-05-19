@@ -28,9 +28,9 @@ class Ajax extends Backend
      * @param $strAction
      * @param DataContainer $dc
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function executePostActions($strAction, DataContainer $dc)
+    public function executePostActions($strAction, DataContainer $dc): void
     {
         if($strAction !== 'reloadRegiontree')
         {
@@ -84,16 +84,16 @@ class Ajax extends Backend
         }
 
         // Call the load_callback
-        if (\is_array($GLOBALS['TL_DCA'][$dc->table]['fields'][$strField]['load_callback']))
+        if (is_array($GLOBALS['TL_DCA'][$dc->table]['fields'][$strField]['load_callback']))
         {
             foreach ($GLOBALS['TL_DCA'][$dc->table]['fields'][$strField]['load_callback'] as $callback)
             {
-                if (\is_array($callback))
+                if (is_array($callback))
                 {
                     $this->import($callback[0]);
                     $varValue = $this->{$callback[0]}->{$callback[1]}($varValue, $dc);
                 }
-                elseif (\is_callable($callback))
+                elseif (is_callable($callback))
                 {
                     $varValue = $callback($varValue, $dc);
                 }
