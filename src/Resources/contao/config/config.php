@@ -18,9 +18,6 @@ $GLOBALS['BE_MOD']['system']['regions'] = array
 $GLOBALS['TL_MODELS']['tl_region'] = 'ContaoEstateManager\RegionEntity\RegionModel';
 $GLOBALS['TL_MODELS']['tl_region_connection'] = 'ContaoEstateManager\RegionEntity\RegionConnectionModel';
 
-// Add permissions
-$GLOBALS['TL_PERMISSIONS'][] = 'regions';
-
 // Back end form fields
 $GLOBALS['BE_FFL']['regionTree'] = 'ContaoEstateManager\RegionEntity\RegionTree';
 

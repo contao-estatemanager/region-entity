@@ -59,8 +59,7 @@ $GLOBALS['TL_DCA']['tl_region'] = array
             'edit' => array
             (
                 'href'                => 'act=edit',
-                'icon'                => 'edit.svg',
-                'button_callback'     => array('tl_region', 'editRegion')
+                'icon'                => 'edit.svg'
             ),
             'copy' => array
             (
@@ -363,46 +362,6 @@ class tl_region extends Contao\Backend
         }
 
         return $return . ($disablePI ? Contao\Image::getHtml('pasteinto_.svg') . ' ' : '<a href="' . $this->addToUrl('act=' . $arrClipboard['mode'] . '&amp;mode=2&amp;pid=' . $row['id'] . (!is_array($arrClipboard['id']) ? '&amp;id=' . $arrClipboard['id'] : '')) . '" title="' . Contao\StringUtil::specialchars(sprintf($GLOBALS['TL_LANG'][$table]['pasteinto'][$row['id'] > 0 ? 1 : 0], $row['id'])) . '" onclick="Backend.getScrollOffset()">' . $imagePasteInto . '</a> ');
-    }
-
-    /**
-     * Return the edit region button
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function editRegion(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
-    {
-        return ($this->User->hasAccess('regions', 'alpty')) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . Contao\StringUtil::specialchars($title) . '"' . $attributes . '>' . Contao\Image::getHtml($icon, $label) . '</a> ' : Contao\Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
-    }
-
-    /**
-     * Return the copy region button
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     * @param string $table
-     *
-     * @return string
-     */
-    public function copyRegion(array $row, string $href, string $label, string $title, string $icon, string $attributes, string $table): string
-    {
-        if ($GLOBALS['TL_DCA'][$table]['config']['closed'])
-        {
-            return '';
-        }
-
-        return ($this->User->hasAccess('regions', 'alpty')) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . Contao\StringUtil::specialchars($title) . '"' . $attributes . '>' . Contao\Image::getHtml($icon, $label) . '</a> ' : Contao\Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
     }
 
     /**
