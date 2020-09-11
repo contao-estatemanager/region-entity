@@ -10,24 +10,28 @@
 
 namespace ContaoEstateManager\RegionEntity;
 
-class Region extends \Backend
+use Contao\Backend;
+use Contao\DataContainer;
+use Contao\StringUtil;
+
+class Region extends Backend
 {
 
     /**
      * Save connection from save callback
      *
      * @param $varValue
-     * @param \DataContainer $dc
+     * @param DataContainer $dc
      *
      * @return string
      */
-    public function regionConnectionSaveCallback($varValue, \DataContainer $dc)
+    public function regionConnectionSaveCallback($varValue, DataContainer $dc): string
     {
         $strTable = $dc->table;
 
         if($GLOBALS['TL_DCA'][ $strTable ]['fields'][ $dc->field ]['inputType'] === 'regionTree')
         {
-            $arrRegions = \StringUtil::deserialize($varValue);
+            $arrRegions = StringUtil::deserialize($varValue);
 
             // delete previous connections
             RegionConnectionModel::deleteByPidAndPtable($dc->activeRecord->id, $strTable);
@@ -51,7 +55,7 @@ class Region extends \Backend
      * @param $pid
      * @param $ptable
      */
-    public static function saveConnectionRecord($rid, $pid, $ptable)
+    public static function saveConnectionRecord($rid, $pid, $ptable): void
     {
         $objConnection = new RegionConnectionModel();
         $objConnection->rid = $rid;

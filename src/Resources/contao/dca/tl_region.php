@@ -59,15 +59,13 @@ $GLOBALS['TL_DCA']['tl_region'] = array
             'edit' => array
             (
                 'href'                => 'act=edit',
-                'icon'                => 'edit.svg',
-                'button_callback'     => array('tl_region', 'editRegion')
+                'icon'                => 'edit.svg'
             ),
             'copy' => array
             (
                 'href'                => 'act=paste&amp;mode=copy',
                 'icon'                => 'copy.svg',
-                'attributes'          => 'onclick="Backend.getScrollOffset()"',
-                'button_callback'     => array('tl_region', 'copyRegion')
+                'attributes'          => 'onclick="Backend.getScrollOffset()"'
             ),
             'copyChilds' => array
             (
@@ -80,15 +78,13 @@ $GLOBALS['TL_DCA']['tl_region'] = array
             (
                 'href'                => 'act=paste&amp;mode=cut',
                 'icon'                => 'cut.svg',
-                'attributes'          => 'onclick="Backend.getScrollOffset()"',
-                'button_callback'     => array('tl_region', 'cutRegion')
+                'attributes'          => 'onclick="Backend.getScrollOffset()"'
             ),
             'delete' => array
             (
                 'href'                => 'act=delete',
                 'icon'                => 'delete.svg',
-                'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"',
-                'button_callback'     => array('tl_region', 'deleteRegion')
+                'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
             ),
             'toggle' => array
             (
@@ -136,6 +132,7 @@ $GLOBALS['TL_DCA']['tl_region'] = array
 		),
 		'title' => array
 		(
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['title'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'sorting'                 => true,
@@ -146,6 +143,7 @@ $GLOBALS['TL_DCA']['tl_region'] = array
 		),
         'type' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['type'],
             'exclude'                 => true,
             'filter'                  => true,
             'inputType'               => 'select',
@@ -160,9 +158,9 @@ $GLOBALS['TL_DCA']['tl_region'] = array
         ),
         'language' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['language'],
             'exclude'                 => true,
             'search'                  => true,
-            'sorting'                 => true,
             'flag'                    => 1,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
@@ -170,42 +168,55 @@ $GLOBALS['TL_DCA']['tl_region'] = array
         ),
         'description' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['description'],
+            'exclude'                 => true,
             'inputType'               => 'textarea',
             'eval'                    => array('rte'=>'tinyMCE', 'tl_class'=>'clr'),
             'sql'                     => "text NULL"
         ),
         'postalcodes' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['postalcodes'],
+            'exclude'                 => true,
             'inputType'               => 'listWizard',
             'eval'                    => array('tl_class'=>'w50'),
             'sql'                     => "text NULL"
         ),
         'state' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['state'],
+            'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'lat' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['lat'],
+            'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50 clr'),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'lng' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['lng'],
+            'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'country' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['country'],
+            'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'published' => array
         (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_region']['published'],
             'exclude'                 => true,
             'filter'                  => true,
             'inputType'               => 'checkbox',
@@ -215,15 +226,13 @@ $GLOBALS['TL_DCA']['tl_region'] = array
 	)
 );
 
+
 /**
  * Provide miscellaneous methods that are used by the data configuration array.
  *
  * @author Daniele Sciannimanica <https://github.com/doishub>
  */
-
-use ContaoEstateManager\RegionEntity\RegionModel;
-
-class tl_region extends \Backend
+class tl_region extends Contao\Backend
 {
 	/**
 	 * Import the back end user object
@@ -231,7 +240,7 @@ class tl_region extends \Backend
 	public function __construct()
 	{
 		parent::__construct();
-		$this->import('BackendUser', 'User');
+		$this->import('Contao\BackendUser', 'User');
 	}
 
     /**
@@ -239,14 +248,14 @@ class tl_region extends \Backend
      *
      * @param array                $row
      * @param string               $label
-     * @param DataContainer        $dc
+     * @param Contao\DataContainer $dc
      * @param string               $imageAttribute
      * @param boolean              $blnReturnImage
      * @param boolean              $blnProtected
      *
      * @return string
      */
-    public function addLanguage($row, $label, DataContainer $dc=null, $imageAttribute='', $blnReturnImage=false, $blnProtected=false)
+    public function addLanguage(array $row, string $label, Contao\DataContainer $dc=null, string $imageAttribute='', bool $blnReturnImage=false, bool $blnProtected=false): string
     {
         if($row['type'] === 'root')
         {
@@ -255,15 +264,15 @@ class tl_region extends \Backend
 
         $image = 'root';
 
-        return '<a href="javascript:;">' . \Image::getHtml(($row['published'] ? $image : $image . '_1') . '.svg', '', 'data-icon="' . $image . '.svg" data-icon-disabled="' . $image . '_1.svg"') . '</a> ' . $label;
+        return '<a href="javascript:;">' . Contao\Image::getHtml(($row['published'] ? $image : $image . '_1') . '.svg', '', 'data-icon="' . $image . '.svg" data-icon-disabled="' . $image . '_1.svg"') . '</a> ' . $label;
     }
 
     /**
      * Make new top-level regions root regions
      *
-     * @param DataContainer $dc
+     * @param Contao\DataContainer $dc
      */
-    public function translateRootTitle(DataContainer $dc)
+    public function translateRootTitle(Contao\DataContainer $dc)
     {
         $GLOBALS['TL_LANG']['MSC']['pageManager'] = &$GLOBALS['TL_LANG']['tl_region']['pageManager'];
     }
@@ -271,25 +280,25 @@ class tl_region extends \Backend
     /**
      * Make new top-level regions root regions
      *
-     * @param DataContainer $dc
+     * @param Contao\DataContainer $dc
      */
-    public function setRootType(DataContainer $dc)
+    public function setRootType(Contao\DataContainer $dc): void
     {
-        if (\Input::get('act') != 'create')
+        if (Contao\Input::get('act') != 'create')
         {
             return;
         }
 
         // Insert into
-        if (\Input::get('pid') == 0)
+        if (Contao\Input::get('pid') == 0)
         {
             $GLOBALS['TL_DCA']['tl_region']['fields']['type']['default'] = 'root';
         }
-        elseif (\Input::get('mode') == 1)
+        elseif (Contao\Input::get('mode') == 1)
         {
             $objPage = $this->Database->prepare("SELECT * FROM " . $dc->table . " WHERE id=?")
                 ->limit(1)
-                ->execute(\Input::get('pid'));
+                ->execute(Contao\Input::get('pid'));
 
             if ($objPage->pid == 0)
             {
@@ -302,13 +311,13 @@ class tl_region extends \Backend
      * Make sure that top-level pages are root pages
      *
      * @param mixed                $varValue
-     * @param DataContainer $dc
+     * @param Contao\DataContainer $dc
      *
      * @return mixed
      *
      * @throws Exception
      */
-    public function checkRootType($varValue, DataContainer $dc)
+    public function checkRootType($varValue, Contao\DataContainer $dc)
     {
         if ($varValue != 'root' && $dc->activeRecord->pid == 0)
         {
@@ -321,7 +330,7 @@ class tl_region extends \Backend
     /**
      * Return the paste region button
      *
-     * @param DataContainer $dc
+     * @param Contao\DataContainer $dc
      * @param array                $row
      * @param string               $table
      * @param boolean              $cr
@@ -329,7 +338,7 @@ class tl_region extends \Backend
      *
      * @return string
      */
-    public function pasteRegion(DataContainer $dc, $row, $table, $cr, $arrClipboard=null)
+    public function pasteRegion(Contao\DataContainer $dc, array $row, string $table, bool $cr, array $arrClipboard=null): string
     {
         $disablePA = false;
         $disablePI = false;
@@ -344,55 +353,15 @@ class tl_region extends \Backend
         $return = '';
 
         // Return the buttons
-        $imagePasteAfter = \Image::getHtml('pasteafter.svg', sprintf($GLOBALS['TL_LANG'][$table]['pasteafter'][1], $row['id']));
-        $imagePasteInto = \Image::getHtml('pasteinto.svg', sprintf($GLOBALS['TL_LANG'][$table]['pasteinto'][1], $row['id']));
+        $imagePasteAfter = Contao\Image::getHtml('pasteafter.svg', sprintf($GLOBALS['TL_LANG'][$table]['pasteafter'][1], $row['id']));
+        $imagePasteInto = Contao\Image::getHtml('pasteinto.svg', sprintf($GLOBALS['TL_LANG'][$table]['pasteinto'][1], $row['id']));
 
         if ($row['id'] > 0)
         {
-            $return = $disablePA ? \Image::getHtml('pasteafter_.svg') . ' ' : '<a href="' . $this->addToUrl('act=' . $arrClipboard['mode'] . '&amp;mode=1&amp;pid=' . $row['id'] . (!is_array($arrClipboard['id']) ? '&amp;id=' . $arrClipboard['id'] : '')) . '" title="' . \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG'][$table]['pasteafter'][1], $row['id'])) . '" onclick="Backend.getScrollOffset()">' . $imagePasteAfter . '</a> ';
+            $return = $disablePA ? Contao\Image::getHtml('pasteafter_.svg') . ' ' : '<a href="' . $this->addToUrl('act=' . $arrClipboard['mode'] . '&amp;mode=1&amp;pid=' . $row['id'] . (!is_array($arrClipboard['id']) ? '&amp;id=' . $arrClipboard['id'] : '')) . '" title="' . Contao\StringUtil::specialchars(sprintf($GLOBALS['TL_LANG'][$table]['pasteafter'][1], $row['id'])) . '" onclick="Backend.getScrollOffset()">' . $imagePasteAfter . '</a> ';
         }
 
-        return $return . ($disablePI ? \Image::getHtml('pasteinto_.svg') . ' ' : '<a href="' . $this->addToUrl('act=' . $arrClipboard['mode'] . '&amp;mode=2&amp;pid=' . $row['id'] . (!is_array($arrClipboard['id']) ? '&amp;id=' . $arrClipboard['id'] : '')) . '" title="' . \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG'][$table]['pasteinto'][$row['id'] > 0 ? 1 : 0], $row['id'])) . '" onclick="Backend.getScrollOffset()">' . $imagePasteInto . '</a> ');
-    }
-
-    /**
-     * Return the edit region button
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function editRegion($row, $href, $label, $title, $icon, $attributes)
-    {
-        return ($this->User->hasAccess('regions', 'alpty')) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . \StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ' : \Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
-    }
-
-    /**
-     * Return the copy region button
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     * @param string $table
-     *
-     * @return string
-     */
-    public function copyRegion($row, $href, $label, $title, $icon, $attributes, $table)
-    {
-        if ($GLOBALS['TL_DCA'][$table]['config']['closed'])
-        {
-            return '';
-        }
-
-        return ($this->User->hasAccess('regions', 'alpty')) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . \StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ' : \Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
+        return $return . ($disablePI ? Contao\Image::getHtml('pasteinto_.svg') . ' ' : '<a href="' . $this->addToUrl('act=' . $arrClipboard['mode'] . '&amp;mode=2&amp;pid=' . $row['id'] . (!is_array($arrClipboard['id']) ? '&amp;id=' . $arrClipboard['id'] : '')) . '" title="' . Contao\StringUtil::specialchars(sprintf($GLOBALS['TL_LANG'][$table]['pasteinto'][$row['id'] > 0 ? 1 : 0], $row['id'])) . '" onclick="Backend.getScrollOffset()">' . $imagePasteInto . '</a> ');
     }
 
     /**
@@ -408,52 +377,16 @@ class tl_region extends \Backend
      *
      * @return string
      */
-    public function copyRegionWithSubregions($row, $href, $label, $title, $icon, $attributes, $table)
+    public function copyRegionWithSubregions(array $row, string $href, string $label, string $title, string $icon, string $attributes, string $table): string
     {
         if ($GLOBALS['TL_DCA'][$table]['config']['closed'])
         {
             return '';
         }
 
-        $objSubregions = RegionModel::findByPid($row['id']);
+        $objSubregions = ContaoEstateManager\RegionEntity\RegionModel::findByPid($row['id']);
 
-        return ($objSubregions !== null && $objSubregions->count() > 0 && $this->User->hasAccess('regions', 'alpty')) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . \StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ' : \Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
-    }
-
-    /**
-     * Return the cut region button
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function cutRegion($row, $href, $label, $title, $icon, $attributes)
-    {
-        return ($this->User->hasAccess('regions', 'alpty')) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . \StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ' : \Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
-    }
-
-    /**
-     * Return the delete region button
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function deleteRegion($row, $href, $label, $title, $icon, $attributes)
-    {
-        $root = func_get_arg(7);
-
-        return ($this->User->hasAccess('regions', 'alpty')) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . \StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ' : \Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
+        return ($objSubregions !== null && $objSubregions->count() > 0) ? '<a href="' . $this->addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . Contao\StringUtil::specialchars($title) . '"' . $attributes . '>' . Contao\Image::getHtml($icon, $label) . '</a> ' : Contao\Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
     }
 
     /**
@@ -468,11 +401,11 @@ class tl_region extends \Backend
      *
      * @return string
      */
-    public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
+    public function toggleIcon(array $row, ?string $href, string $label, string $title, string $icon, string $attributes): string
     {
-        if (\Input::get('tid'))
+        if (Contao\Input::get('tid'))
         {
-            $this->toggleVisibility(\Input::get('tid'), (\Input::get('state') == 1), (@func_get_arg(12) ?: null));
+            $this->toggleVisibility(Contao\Input::get('tid'), (Contao\Input::get('state') == 1), (@func_get_arg(12) ?: null));
             $this->redirect($this->getReferer());
         }
 
@@ -489,12 +422,7 @@ class tl_region extends \Backend
             $icon = 'invisible.svg';
         }
 
-        if (!$this->User->hasAccess('regions', 'alpty') || ($objRegion = RegionModel::findById($row['id'])) === null)
-        {
-            return \Image::getHtml($icon) . ' ';
-        }
-
-        return '<a href="' . $this->addToUrl($href) . '" title="' . \StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
+        return '<a href="' . $this->addToUrl($href) . '" title="' . Contao\StringUtil::specialchars($title) . '"' . $attributes . '>' . Contao\Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
     }
 
     /**
@@ -502,15 +430,15 @@ class tl_region extends \Backend
      *
      * @param integer              $intId
      * @param boolean              $blnVisible
-     * @param \DataContainer $dc
+     * @param Contao\DataContainer $dc
      *
-     * @throws \CoreBundle\Exception\AccessDeniedException
+     * @throws Contao\CoreBundle\Exception\AccessDeniedException
      */
-    public function toggleVisibility($intId, $blnVisible, \DataContainer $dc=null)
+    public function toggleVisibility(int $intId, bool $blnVisible, Contao\DataContainer $dc=null): void
     {
         // Set the ID and action
-        \Input::setGet('id', $intId);
-        \Input::setGet('act', 'toggle');
+        Contao\Input::setGet('id', $intId);
+        Contao\Input::setGet('act', 'toggle');
 
         if ($dc)
         {
@@ -537,7 +465,7 @@ class tl_region extends \Backend
         // Check the field access
         if (!$this->User->hasAccess('tl_region::published', 'alexf'))
         {
-            throw new \CoreBundle\Exception\AccessDeniedException('Not enough permissions to publish/unpublish region ID ' . $intId . '.');
+            throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to publish/unpublish region ID ' . $intId . '.');
         }
 
         // Set the current record
@@ -553,7 +481,7 @@ class tl_region extends \Backend
             }
         }
 
-        $objVersions = new \Versions('tl_region', $intId);
+        $objVersions = new Contao\Versions('tl_region', $intId);
         $objVersions->initialize();
 
         // Trigger the save_callback

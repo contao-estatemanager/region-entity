@@ -8,6 +8,13 @@
 
 namespace ContaoEstateManager\RegionEntity;
 
+use Contao\Database;
+use Contao\Image;
+use Contao\Input;
+use Contao\StringUtil;
+use Contao\System;
+use Contao\Widget;
+
 /**
  * Provide methods to handle input field "region tree".
  *
@@ -22,7 +29,7 @@ namespace ContaoEstateManager\RegionEntity;
  * RegionTree
  * @author Daniele Sciannimanica <https://github.com/doishub>
  */
-class RegionTree extends \Widget
+class RegionTree extends Widget
 {
 	/**
 	 * Submit user input
@@ -55,7 +62,7 @@ class RegionTree extends \Widget
 	 */
 	public function __construct($arrAttributes=null)
 	{
-		$this->import(\Database::class, 'Database');
+		$this->import(Database::class, 'Database');
 		parent::__construct($arrAttributes);
 
 		// Prepare the order field
@@ -65,12 +72,12 @@ class RegionTree extends \Widget
 			$this->strOrderName = $this->orderField . str_replace($this->strField, '', $this->strName);
 
 			// Retrieve the order value
-			$objRow = $this->Database->prepare("SELECT " . \Database::quoteIdentifier($this->orderField) . " FROM " . $this->strTable . " WHERE id=?")
+			$objRow = $this->Database->prepare("SELECT " . Database::quoteIdentifier($this->orderField) . " FROM " . $this->strTable . " WHERE id=?")
 						   ->limit(1)
 						   ->execute($this->activeRecord->id);
 
-			$tmp = \StringUtil::deserialize($objRow->{$this->orderField});
-			$this->{$this->orderField} = (!empty($tmp) && \is_array($tmp)) ? array_filter($tmp) : array();
+			$tmp = StringUtil::deserialize($objRow->{$this->orderField});
+			$this->{$this->orderField} = (!empty($tmp) && is_array($tmp)) ? array_filter($tmp) : array();
 		}
 	}
 
@@ -95,7 +102,7 @@ class RegionTree extends \Widget
 		{
 			$arrNew = array();
 
-			if ($order = \Input::post($this->strOrderName))
+			if ($order = Input::post($this->strOrderName))
 			{
 				$arrNew = explode(',', $order);
 			}
@@ -103,7 +110,7 @@ class RegionTree extends \Widget
 			// Only proceed if the value has changed
 			if ($arrNew !== $this->{$this->orderField})
 			{
-				$this->Database->prepare("UPDATE " . $this->strTable . " SET tstamp=?, " .  \Database::quoteIdentifier($this->orderField) . "=? WHERE id=?")
+				$this->Database->prepare("UPDATE " . $this->strTable . " SET tstamp=?, " .  Database::quoteIdentifier($this->orderField) . "=? WHERE id=?")
 							   ->execute(time(), serialize($arrNew), $this->activeRecord->id);
 
 				$this->objDca->createNewVersion = true; // see #6285
@@ -138,7 +145,7 @@ class RegionTree extends \Widget
 	 */
 	protected function checkValue($varInput)
 	{
-		if ($varInput == '' || !\is_array($this->rootNodes))
+		if ($varInput == '' || !is_array($this->rootNodes))
 		{
 			return;
 		}
@@ -152,7 +159,7 @@ class RegionTree extends \Widget
 			$arrIds = array_map('\intval', array_filter(explode(',', $varInput)));
 		}
 
-		if (\count(array_diff($arrIds, array_merge($this->rootNodes, $this->Database->getChildRecords($this->rootNodes, 'tl_region')))) > 0)
+		if (count(array_diff($arrIds, array_merge($this->rootNodes, $this->Database->getChildRecords($this->rootNodes, 'tl_region')))) > 0)
 		{
 			$this->addError($GLOBALS['TL_LANG']['ERR']['invalidRegions']);
 		}
@@ -167,7 +174,7 @@ class RegionTree extends \Widget
 	{
 		$arrSet = array();
 		$arrValues = array();
-		$blnHasOrder = ($this->orderField != '' && \is_array($this->{$this->orderField}));
+		$blnHasOrder = ($this->orderField != '' && is_array($this->{$this->orderField}));
 
 		// $this->varValue can be an array, so use empty() here
 		if (!empty($this->varValue))
@@ -181,7 +188,7 @@ class RegionTree extends \Widget
                     $image = 'root';
 
                     $arrSet[] = $objRegions->id;
-                    $arrValues[$objRegions->id] = \Image::getHtml(($objRegions->published ? $image : $image . '_1') . '.svg', '', 'data-icon="' . $image . '.svg" data-icon-disabled="' . $image . '_1.svg"') . ' ' . $objRegions->title;
+                    $arrValues[$objRegions->id] = Image::getHtml(($objRegions->published ? $image : $image . '_1') . '.svg', '', 'data-icon="' . $image . '.svg" data-icon-disabled="' . $image . '_1.svg"') . ' ' . $objRegions->title;
 				}
 			}
 
@@ -225,7 +232,7 @@ class RegionTree extends \Widget
 
 		$return .= '</ul>';
 
-		if (!\System::getContainer()->get('contao.picker.builder')->supportsContext('region'))
+		if (!System::getContainer()->get('contao.picker.builder')->supportsContext('region'))
 		{
 			$return .= '
 	<p><button class="tl_submit" disabled>' . $GLOBALS['TL_LANG']['MSC']['changeSelection'] . '</button></p>';
@@ -238,13 +245,13 @@ class RegionTree extends \Widget
 				'source' => $this->strTable . '.' . $this->currentRecord,
 			);
 
-			if (\is_array($this->rootNodes))
+			if (is_array($this->rootNodes))
 			{
 				$extras['rootNodes'] = array_values($this->rootNodes);
 			}
 
 			$return .= '
-    <p><a href="' . ampersand(\System::getContainer()->get('contao.picker.builder')->getUrl('region', $extras)) . '" class="tl_submit" id="pt_' . $this->strName . '">' . $GLOBALS['TL_LANG']['MSC']['changeSelection'] . '</a></p>
+    <p><a href="' . ampersand(System::getContainer()->get('contao.picker.builder')->getUrl('region', $extras)) . '" class="tl_submit" id="pt_' . $this->strName . '">' . $GLOBALS['TL_LANG']['MSC']['changeSelection'] . '</a></p>
     <script>
       $("pt_' . $this->strName . '").addEvent("click", function(e) {
         e.preventDefault();

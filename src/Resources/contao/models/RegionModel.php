@@ -2,6 +2,8 @@
 
 namespace ContaoEstateManager\RegionEntity;
 
+use Contao\Model;
+
 /**
  * Reads and writes Regions
  *
@@ -36,20 +38,20 @@ namespace ContaoEstateManager\RegionEntity;
  * @method static RegionModel|null findOneByCountry($val, array $opt=array())
  * @method static RegionModel|null findOneByPublished($val, array $opt=array())
  *
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByPid($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findBySorting($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByTstamp($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByTitle($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByType($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByLanguage($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByDescription($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByPostalcodes($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByState($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByCountry($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findByPublished($val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findMultipleByIds($var, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findBy($col, $val, array $opt=array())
- * @method static \Model\Collection|RegionModel[]|RegionModel|null findAll(array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByPid($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findBySorting($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByTstamp($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByTitle($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByType($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByLanguage($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByDescription($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByPostalcodes($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByState($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByCountry($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByPublished($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findMultipleByIds($var, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findBy($col, $val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findAll(array $opt=array())
  *
  * @method static integer countById($id, array $opt=array())
  * @method static integer countByOid($val, array $opt=array())
@@ -67,7 +69,7 @@ namespace ContaoEstateManager\RegionEntity;
  *
  * @author Daniele Sciannimanica <https://github.com/doishub>
  */
-class RegionModel extends \Model
+class RegionModel extends Model
 {
 
     /**
@@ -82,7 +84,7 @@ class RegionModel extends \Model
      * @param integer $intId      The region PID
      * @param array   $arrOptions An optional options array
      *
-     * @return \Model\Collection|RegionModel[]|RegionModel|null The model collection or null if there is no published region
+     * @return Model\Collection|RegionModel[]|RegionModel|null The model collection or null if there is no published region
      */
     public static function findPublishedByPid($intId, array $arrOptions=array())
     {

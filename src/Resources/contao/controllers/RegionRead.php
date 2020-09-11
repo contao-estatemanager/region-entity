@@ -2,6 +2,8 @@
 
 namespace ContaoEstateManager\RegionEntity;
 
+use Contao\Frontend;
+use Contao\StringUtil;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -9,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * @author Daniele Sciannimanica <https://github.com/doishub>
  */
-class RegionRead extends \Frontend
+class RegionRead extends Frontend
 {
     /**
      * Method Constants
@@ -165,7 +167,7 @@ class RegionRead extends \Frontend
 
                 if($arrRegions[ $objRegion->id ]['postalcodes'])
                 {
-                    $arrRegions[ $objRegion->id ]['postalcodes'] = \StringUtil::deserialize($arrRegions[ $objRegion->id ]['postalcodes']);
+                    $arrRegions[ $objRegion->id ]['postalcodes'] = StringUtil::deserialize($arrRegions[ $objRegion->id ]['postalcodes']);
                 }
             }
 

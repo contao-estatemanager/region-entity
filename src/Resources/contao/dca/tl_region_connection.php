@@ -88,7 +88,6 @@ $GLOBALS['TL_DCA']['tl_region_connection'] = array
 		),
 		'ptable' => array
 		(
-			'exclude'                 => true,
 			'search'                  => true,
 			'sorting'                 => true,
 			'flag'                    => 1,

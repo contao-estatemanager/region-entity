@@ -2,6 +2,9 @@
 
 namespace ContaoEstateManager\RegionEntity;
 
+use Contao\Database;
+use Contao\Model;
+
 /**
  * Reads and writes Regions
  *
@@ -13,9 +16,9 @@ namespace ContaoEstateManager\RegionEntity;
  * @method static RegionConnectionModel|null findOneByPid($id, array $opt=array())
  * @method static RegionConnectionModel|null findOneByPtable($id, array $opt=array())
  *
- * @method static \Model\Collection|RegionConnectionModel[]|RegionConnectionModel|null findByRid($val, array $opt=array())
- * @method static \Model\Collection|RegionConnectionModel[]|RegionConnectionModel|null findByPid($val, array $opt=array())
- * @method static \Model\Collection|RegionConnectionModel[]|RegionConnectionModel|null findByPtable($val, array $opt=array())
+ * @method static Model\Collection|RegionConnectionModel[]|RegionConnectionModel|null findByRid($val, array $opt=array())
+ * @method static Model\Collection|RegionConnectionModel[]|RegionConnectionModel|null findByPid($val, array $opt=array())
+ * @method static Model\Collection|RegionConnectionModel[]|RegionConnectionModel|null findByPtable($val, array $opt=array())
  *
  * @method static integer countByRid($id, array $opt=array())
  * @method static integer countByPid($val, array $opt=array())
@@ -23,7 +26,7 @@ namespace ContaoEstateManager\RegionEntity;
  *
  * @author Daniele Sciannimanica <https://github.com/doishub>
  */
-class RegionConnectionModel extends \Model
+class RegionConnectionModel extends Model
 {
 
     /**
@@ -42,7 +45,7 @@ class RegionConnectionModel extends \Model
     {
         $strTable = static::$strTable;
 
-        $objDatabase = \Database::getInstance();
+        $objDatabase = Database::getInstance();
         $objDatabase->prepare('DELETE FROM ' . $strTable . ' WHERE pid=' . $pid . ' AND ptable="' . $ptable . '"')->execute();
     }
 }
