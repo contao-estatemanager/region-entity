@@ -34,7 +34,7 @@ class Ajax extends Backend
     {
         if($strAction !== 'reloadRegiontree')
         {
-            throw new NoContentResponseException();
+            return;
         }
 
         $intId = Input::get('id');
