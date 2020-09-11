@@ -49,7 +49,7 @@ class RegionPickerProvider extends AbstractInsertTagPickerProvider implements Dc
      */
     public function supportsContext($context): bool
     {
-        return \in_array($context, ['region', 'link'], true) && $this->security->isGranted('contao_user.modules', 'region');
+        return in_array($context, ['region', 'link'], true) && $this->security->isGranted('contao_user.modules', 'region');
     }
 
     /**
@@ -89,7 +89,7 @@ class RegionPickerProvider extends AbstractInsertTagPickerProvider implements Dc
                 $attributes['preserveRecord'] = $source;
             }
 
-            if (\is_array($rootNodes = $config->getExtra('rootNodes'))) {
+            if (is_array($rootNodes = $config->getExtra('rootNodes'))) {
                 $attributes['rootNodes'] = $rootNodes;
             }
 

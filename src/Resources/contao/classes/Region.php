@@ -25,7 +25,7 @@ class Region extends Backend
      *
      * @return string
      */
-    public function regionConnectionSaveCallback($varValue, DataContainer $dc)
+    public function regionConnectionSaveCallback($varValue, DataContainer $dc): string
     {
         $strTable = $dc->table;
 
@@ -55,7 +55,7 @@ class Region extends Backend
      * @param $pid
      * @param $ptable
      */
-    public static function saveConnectionRecord($rid, $pid, $ptable)
+    public static function saveConnectionRecord($rid, $pid, $ptable): void
     {
         $objConnection = new RegionConnectionModel();
         $objConnection->rid = $rid;

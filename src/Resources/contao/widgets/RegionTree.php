@@ -11,6 +11,7 @@ namespace ContaoEstateManager\RegionEntity;
 use Contao\Database;
 use Contao\Image;
 use Contao\Input;
+use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
 
@@ -75,8 +76,8 @@ class RegionTree extends Widget
 						   ->limit(1)
 						   ->execute($this->activeRecord->id);
 
-			$tmp = \StringUtil::deserialize($objRow->{$this->orderField});
-			$this->{$this->orderField} = (!empty($tmp) && \is_array($tmp)) ? array_filter($tmp) : array();
+			$tmp = StringUtil::deserialize($objRow->{$this->orderField});
+			$this->{$this->orderField} = (!empty($tmp) && is_array($tmp)) ? array_filter($tmp) : array();
 		}
 	}
 
@@ -144,7 +145,7 @@ class RegionTree extends Widget
 	 */
 	protected function checkValue($varInput)
 	{
-		if ($varInput == '' || !\is_array($this->rootNodes))
+		if ($varInput == '' || !is_array($this->rootNodes))
 		{
 			return;
 		}
@@ -158,7 +159,7 @@ class RegionTree extends Widget
 			$arrIds = array_map('\intval', array_filter(explode(',', $varInput)));
 		}
 
-		if (\count(array_diff($arrIds, array_merge($this->rootNodes, $this->Database->getChildRecords($this->rootNodes, 'tl_region')))) > 0)
+		if (count(array_diff($arrIds, array_merge($this->rootNodes, $this->Database->getChildRecords($this->rootNodes, 'tl_region')))) > 0)
 		{
 			$this->addError($GLOBALS['TL_LANG']['ERR']['invalidRegions']);
 		}
@@ -173,7 +174,7 @@ class RegionTree extends Widget
 	{
 		$arrSet = array();
 		$arrValues = array();
-		$blnHasOrder = ($this->orderField != '' && \is_array($this->{$this->orderField}));
+		$blnHasOrder = ($this->orderField != '' && is_array($this->{$this->orderField}));
 
 		// $this->varValue can be an array, so use empty() here
 		if (!empty($this->varValue))
@@ -244,7 +245,7 @@ class RegionTree extends Widget
 				'source' => $this->strTable . '.' . $this->currentRecord,
 			);
 
-			if (\is_array($this->rootNodes))
+			if (is_array($this->rootNodes))
 			{
 				$extras['rootNodes'] = array_values($this->rootNodes);
 			}
