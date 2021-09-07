@@ -23,9 +23,9 @@ class Region extends Backend
      * @param $varValue
      * @param DataContainer $dc
      *
-     * @return string
+     * @return null|string
      */
-    public function regionConnectionSaveCallback($varValue, DataContainer $dc): string
+    public function regionConnectionSaveCallback($varValue, DataContainer $dc): ?string
     {
         $strTable = $dc->table;
 

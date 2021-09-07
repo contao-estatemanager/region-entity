@@ -39,6 +39,52 @@
       <trans-unit id="tl_region.published.0">
         <source>publish</source>
       </trans-unit>
+
+      <trans-unit id="tl_region.new.0">
+        <source>New</source>
+      </trans-unit>
+      <trans-unit id="tl_region.new.1">
+        <source>Create a new media query</source>
+      </trans-unit>
+      <trans-unit id="tl_region.show">
+        <source>Show the details of media query ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_region.edit">
+        <source>Edit media query ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_region.editheader">
+        <source>Edit the image size settings</source>
+      </trans-unit>
+      <trans-unit id="tl_region.cut">
+        <source>Move media query ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_region.copy">
+        <source>Duplicate media query ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_region.delete">
+        <source>Delete media query ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_region.toggle">
+        <source>Activate/deactivate media query ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_region.pasteafter.0">
+        <source>Paste at the top</source>
+      </trans-unit>
+      <trans-unit id="tl_region.pasteafter.1">
+        <source>Paste after media query ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_region.pasteinto.0">
+        <source>Paste into page ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_region.pasteinto.1">
+        <source>Paste into page ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_region.pastenew.0">
+        <source>Create a new media query at the top</source>
+      </trans-unit>
+      <trans-unit id="tl_region.pastenew.1">
+        <source>Create a new media query after media query ID %s</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

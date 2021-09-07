@@ -9,7 +9,7 @@
  */
 
 // Back end modules
-$GLOBALS['BE_MOD']['system']['regions'] = array
+$GLOBALS['BE_MOD']['content']['regions'] = array
 (
     'tables' => array('tl_region', 'tl_region_connection')
 );
