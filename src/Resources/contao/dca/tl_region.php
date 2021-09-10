@@ -248,14 +248,10 @@ class tl_region extends Contao\Backend
      *
      * @param array                $row
      * @param string               $label
-     * @param Contao\DataContainer $dc
-     * @param string               $imageAttribute
-     * @param boolean              $blnReturnImage
-     * @param boolean              $blnProtected
      *
      * @return string
      */
-    public function addLanguage(array $row, string $label, Contao\DataContainer $dc=null, string $imageAttribute='', bool $blnReturnImage=false, bool $blnProtected=false): string
+    public function addLanguage(array $row, string $label): string
     {
         if($row['type'] === 'root')
         {
