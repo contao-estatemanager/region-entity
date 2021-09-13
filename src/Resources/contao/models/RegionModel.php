@@ -71,7 +71,6 @@ use Contao\Model;
  */
 class RegionModel extends Model
 {
-
     /**
      * Table name
      * @var string
@@ -96,5 +95,107 @@ class RegionModel extends Model
         );
 
         return static::findBy($arrColumns, $intId, $arrOptions);
+    }
+
+    /**
+     * Find published root by language
+     *
+     * @param string $strLocale
+     *
+     * @return array|RegionModel|null
+     */
+    public static function findPublishedRootByLanguage(string $strLocale): ?RegionModel
+    {
+        $t = static::$strTable;
+
+        $arrColumns = array(
+            "$t.type=?",
+            "$t.language=?",
+            "$t.published=?"
+        );
+
+        $arrValues = [
+            'root',
+            $strLocale,
+            1
+        ];
+
+        return static::findOneBy($arrColumns, $arrValues);
+    }
+
+    /**
+     * Find published regions by language
+     *
+     * @param string  $strLocale  The locale string
+     * @param array   $arrOptions An optional options array
+     *
+     * @return array|null The model collection or null if there is no published region
+     */
+    public static function findPublishedByLanguage(string $strLocale, array $arrOptions=array()): ?array
+    {
+        $objRoot = static::findPublishedRootByLanguage($strLocale);
+
+        if(null === $objRoot)
+        {
+            return null;
+        }
+
+        $arrRegions = [];
+
+        // Add region children
+        static::addSubRegions([$objRoot->id], $arrRegions, $arrOptions);
+
+        if(count($arrRegions))
+        {
+            return $arrRegions;
+        }
+
+        return null;
+    }
+
+    /**
+     * Add subregions
+     *
+     * @param array|null $arrRegionsIds
+     * @param array $arrRegions
+     * @param array|null $arrOptions
+     */
+    private static function addSubRegions(?array $arrRegionsIds, array &$arrRegions, ?array $arrOptions=null): void
+    {
+        if(null === $arrRegionsIds)
+        {
+            return;
+        }
+
+        $t = static::$strTable;
+
+        $arrColumns = [
+            "$t.pid IN (?)",
+            "$t.published=?"
+        ];
+
+        $arrValues = [
+            implode(",", $arrRegionsIds),
+            1
+        ];
+
+        $objSubRegions = static::findBy($arrColumns, $arrValues, $arrOptions);
+        $arrTmpRegions = [];
+
+        if(null === $objSubRegions)
+        {
+            return;
+        }
+
+        foreach ($objSubRegions as $objRegion)
+        {
+            $arrTmpRegions[$objRegion->id] = $objRegion;
+        }
+
+        // Add region to collection
+        $arrRegions = array_merge($arrRegions, $arrTmpRegions);
+
+        // Find and add subregions
+        static::addSubRegions(array_keys($arrTmpRegions), $arrRegions, $arrOptions);
     }
 }
