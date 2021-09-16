@@ -29,7 +29,7 @@ class Region extends Backend
     {
         $strTable = $dc->table;
 
-        if($GLOBALS['TL_DCA'][ $strTable ]['fields'][ $dc->field ]['inputType'] === 'regionTree')
+        if($GLOBALS['TL_DCA'][ $strTable ]['fields'][ $dc->field ]['inputType'] === 'picker')
         {
             $arrRegions = StringUtil::deserialize($varValue);
 
