@@ -9,6 +9,7 @@ use Contao\Model;
  *
  * @property integer $id
  * @property integer $pid
+ * @property integer $vid
  * @property integer $oid
  * @property integer $sorting
  * @property integer $tstamp

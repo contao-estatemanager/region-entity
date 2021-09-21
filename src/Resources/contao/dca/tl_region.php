@@ -122,6 +122,11 @@ $GLOBALS['TL_DCA']['tl_region'] = array
 		(
             'sql'                     => "int(10) unsigned NOT NULL default 0"
 		),
+		// Vendor ID: When regions are imported from another source
+		'vid' => array
+		(
+            'sql'                     => "varchar(255) NOT NULL default ''"
+		),
         'sorting' => array
         (
             'sql'                     => "int(10) unsigned NOT NULL default 0"
