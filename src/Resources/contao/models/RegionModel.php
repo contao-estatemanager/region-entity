@@ -9,7 +9,7 @@ use Contao\Model;
  *
  * @property integer $id
  * @property integer $pid
- * @property integer $vid
+ * @property string  $vid
  * @property integer $oid
  * @property integer $sorting
  * @property integer $tstamp
@@ -40,6 +40,7 @@ use Contao\Model;
  * @method static RegionModel|null findOneByPublished($val, array $opt=array())
  *
  * @method static Model\Collection|RegionModel[]|RegionModel|null findByPid($val, array $opt=array())
+ * @method static Model\Collection|RegionModel[]|RegionModel|null findByVid($val, array $opt=array())
  * @method static Model\Collection|RegionModel[]|RegionModel|null findBySorting($val, array $opt=array())
  * @method static Model\Collection|RegionModel[]|RegionModel|null findByTstamp($val, array $opt=array())
  * @method static Model\Collection|RegionModel[]|RegionModel|null findByTitle($val, array $opt=array())
@@ -57,6 +58,7 @@ use Contao\Model;
  * @method static integer countById($id, array $opt=array())
  * @method static integer countByOid($val, array $opt=array())
  * @method static integer countByPid($val, array $opt=array())
+ * @method static integer countByVid($val, array $opt=array())
  * @method static integer countBySorting($val, array $opt=array())
  * @method static integer countByTitle($val, array $opt=array())
  * @method static integer countByType($val, array $opt=array())
