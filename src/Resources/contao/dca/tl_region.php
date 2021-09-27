@@ -122,6 +122,11 @@ $GLOBALS['TL_DCA']['tl_region'] = array
 		(
             'sql'                     => "int(10) unsigned NOT NULL default 0"
 		),
+		// Vendor ID: When regions are imported from another source
+		'vid' => array
+		(
+            'sql'                     => "varchar(255) NOT NULL default ''"
+		),
         'sorting' => array
         (
             'sql'                     => "int(10) unsigned NOT NULL default 0"
@@ -248,14 +253,10 @@ class tl_region extends Contao\Backend
      *
      * @param array                $row
      * @param string               $label
-     * @param Contao\DataContainer $dc
-     * @param string               $imageAttribute
-     * @param boolean              $blnReturnImage
-     * @param boolean              $blnProtected
      *
      * @return string
      */
-    public function addLanguage(array $row, string $label, Contao\DataContainer $dc=null, string $imageAttribute='', bool $blnReturnImage=false, bool $blnProtected=false): string
+    public function addLanguage(array $row, string $label): string
     {
         if($row['type'] === 'root')
         {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ContaoEstateManager\RegionEntity\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -11,7 +13,7 @@ class RegionEntityExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
 }

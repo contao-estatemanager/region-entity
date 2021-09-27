@@ -23,13 +23,13 @@ class Region extends Backend
      * @param $varValue
      * @param DataContainer $dc
      *
-     * @return string
+     * @return null|string
      */
-    public function regionConnectionSaveCallback($varValue, DataContainer $dc): string
+    public function regionConnectionSaveCallback($varValue, DataContainer $dc): ?string
     {
         $strTable = $dc->table;
 
-        if($GLOBALS['TL_DCA'][ $strTable ]['fields'][ $dc->field ]['inputType'] === 'regionTree')
+        if($GLOBALS['TL_DCA'][ $strTable ]['fields'][ $dc->field ]['inputType'] === 'picker')
         {
             $arrRegions = StringUtil::deserialize($varValue);
 
