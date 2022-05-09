@@ -380,7 +380,7 @@ class tl_region extends Contao\Backend
      */
     public function copyRegionWithSubregions(array $row, string $href, string $label, string $title, string $icon, string $attributes, string $table): string
     {
-        if ($GLOBALS['TL_DCA'][$table]['config']['closed'])
+        if ($GLOBALS['TL_DCA'][$table]['config']['closed'] ?? false)
         {
             return '';
         }
